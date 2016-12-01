@@ -1,6 +1,6 @@
-﻿# gmc300
+﻿# gmc-300
 
-`gmc300` is a set of C# classes and applications that communicates directly with Geiger counters `GMC-280`, `GMC-300`, `GMC-320` connected to computer with a USB cable.
+`gmc-300` repository contains a set of C# classes and applications that communicates directly with Geiger counters `GMC-280`, `GMC-300`, `GMC-320` connected to computer with a USB cable.
 
 ### Usage Examples
 
@@ -30,6 +30,13 @@ namespace Vurdalakov
         }
     }
 }
+```
+
+### Get battery voltage
+
+```
+var volts = (float)gmc300.GetVoltage() / 10;
+Console.WriteLine($"Battery voltage: {volts:N1} V");
 ```
 
 ### F.A.Q.

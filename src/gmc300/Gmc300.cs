@@ -82,5 +82,12 @@
             var cpm = _serialPort.ReadByte() << 8;
             return cpm | _serialPort.ReadByte();
         }
+
+        public Int32 GetVoltage()
+        {
+            _serialPort.WriteLine("<GETVOLT>>");
+
+            return _serialPort.ReadByte();
+        }
     }
 }

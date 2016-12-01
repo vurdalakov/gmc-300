@@ -32,18 +32,25 @@ namespace Vurdalakov
 }
 ```
 
-### Get battery voltage (GETVOLT)
+#### Get battery voltage (GETVOLT)
 
 ```
 var volts = (float)gmc300.GetVoltage() / 10;
 Console.WriteLine($"Battery voltage: {volts:N1} V");
 ```
 
-### Get serial number (GETSERIAL)
+#### Get serial number (GETSERIAL)
 
 ```
 var serialNumber = gmc300.GetSerialNumber();
 Console.WriteLine($"Serial number: '{serialNumber}'");
+```
+
+#### Get device date and time (GETDATETIME)
+
+```
+var deviceDateTime = gmc300.GetDateTime();
+Console.WriteLine("Device time: {0}", deviceDateTime.ToString("yyyy.MM.dd HH:mm:ss"));
 ```
 
 ### F.A.Q.

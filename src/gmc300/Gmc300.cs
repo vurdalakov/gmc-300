@@ -73,15 +73,14 @@
         {
             _serialPort.WriteLine("<GETCPM>>");
 
-            var cpm = _serialPort.ReadByte() << 8;
-            return cpm | _serialPort.ReadByte();
+            return (ReadByte() << 8) | ReadByte();
         }
 
         public Int32 GetVoltage()
         {
             _serialPort.WriteLine("<GETVOLT>>");
 
-            return _serialPort.ReadByte();
+            return ReadByte();
         }
 
         public String GetSerialNumber()
@@ -91,12 +90,28 @@
             return ReadHexString(7);
         }
 
+        public DateTime GetDateTime()
+        {
+            _serialPort.WriteLine("<GETDATETIME>>");
+
+            var deviceDateTime = new DateTime(2000 + ReadByte(), ReadByte(), ReadByte(), ReadByte(), ReadByte(), ReadByte(), DateTimeKind.Local);
+            ReadByte(); // 0xAA
+            return deviceDateTime;
+        }
+
+        private Byte ReadByte()
+        {
+            var b = (Byte)_serialPort.ReadByte();
+            //Console.WriteLine($"{b:X2}");
+            return b;
+        }
+
         private String ReadString(Int32 length)
         {
             var stringBuilder = new StringBuilder(length);
             for (var i = 0; i < length; i++)
             {
-                stringBuilder.Append((char)_serialPort.ReadByte());
+                stringBuilder.Append((char)ReadByte());
             }
 
             return stringBuilder.ToString();
@@ -107,7 +122,7 @@
             var stringBuilder = new StringBuilder(length * 2);
             for (var i = 0; i < length; i++)
             {
-                stringBuilder.AppendFormat("{0:X2}", _serialPort.ReadByte());
+                stringBuilder.AppendFormat("{0:X2}", ReadByte());
             }
 
             return stringBuilder.ToString();

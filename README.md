@@ -32,11 +32,18 @@ namespace Vurdalakov
 }
 ```
 
-### Get battery voltage
+### Get battery voltage (GETVOLT)
 
 ```
 var volts = (float)gmc300.GetVoltage() / 10;
 Console.WriteLine($"Battery voltage: {volts:N1} V");
+```
+
+### Get serial number (GETSERIAL)
+
+```
+var serialNumber = gmc300.GetSerialNumber();
+Console.WriteLine($"Serial number: '{serialNumber}'");
 ```
 
 ### F.A.Q.

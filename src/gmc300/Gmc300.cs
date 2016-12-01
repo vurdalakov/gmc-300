@@ -66,13 +66,7 @@
         {
             _serialPort.WriteLine("<GETVER>>");
 
-            var stringBuilder = new StringBuilder(14);
-            for (var i = 0; i < stringBuilder.Capacity; i++)
-            {
-                stringBuilder.Append((char)_serialPort.ReadByte());
-            }
-
-            return stringBuilder.ToString();
+            return ReadString(14);
         }
 
         public Int32 GetCpm()
@@ -88,6 +82,35 @@
             _serialPort.WriteLine("<GETVOLT>>");
 
             return _serialPort.ReadByte();
+        }
+
+        public String GetSerialNumber()
+        {
+            _serialPort.WriteLine("<GETSERIAL>>");
+
+            return ReadHexString(7);
+        }
+
+        private String ReadString(Int32 length)
+        {
+            var stringBuilder = new StringBuilder(length);
+            for (var i = 0; i < length; i++)
+            {
+                stringBuilder.Append((char)_serialPort.ReadByte());
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        private String ReadHexString(Int32 length)
+        {
+            var stringBuilder = new StringBuilder(length * 2);
+            for (var i = 0; i < length; i++)
+            {
+                stringBuilder.AppendFormat("{0:X2}", _serialPort.ReadByte());
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

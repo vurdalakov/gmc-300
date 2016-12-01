@@ -12,6 +12,7 @@
 
             Console.WriteLine($"Model: '{gmc300.Model}'");
             Console.WriteLine($"Firmware version: '{gmc300.FirmwareVersion}'");
+            Console.WriteLine($"Serial number: '{gmc300.GetSerialNumber()}'");
             Console.WriteLine("Battery voltage: {0:N1} V", (float)gmc300.GetVoltage() / 10);
 
             while (true)

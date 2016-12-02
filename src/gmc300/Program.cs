@@ -8,7 +8,7 @@
         static void Main(string[] args)
         {
             var gmc300 = new Gmc300();
-            Console.WriteLine($"Geiger counter found at port '{gmc300.Port}' (baud rate {gmc300.BaudRate:N0})");
+            Console.WriteLine($"Geiger counter found at port '{gmc300.PortName}' (baud rate {gmc300.BaudRate:N0})");
 
             //gmc300.PowerOff();
             //gmc300.PowerOn();
@@ -32,7 +32,9 @@
 
             while (true)
             {
-                Console.WriteLine($"CPM: {gmc300.GetCpm()}");
+                var cpm = gmc300.GetCpm();
+                var uSvh = (float)cpm / 151.5;
+                Console.WriteLine($"CPM: {cpm} or {uSvh:N2} uSv/h");
                 Thread.Sleep(1000);
             }
         }

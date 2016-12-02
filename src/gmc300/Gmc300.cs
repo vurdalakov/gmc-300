@@ -11,7 +11,7 @@
     {
         private SerialPort _serialPort;
 
-        public String Port { get; private set; }
+        public String PortName { get; private set; }
         public Int32 BaudRate { get; private set; }
         public String Model { get; private set; }
         public String FirmwareVersion { get; private set; }
@@ -57,7 +57,7 @@
             _serialPort = new SerialPort(port, baudRate, Parity.None, 8, StopBits.One);
             _serialPort.Open();
 
-            Port = port;
+            PortName = port;
             BaudRate = baudRate;
 
             var version = GetVersion();

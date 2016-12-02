@@ -2,9 +2,7 @@
 
 `gmc-300` repository contains a set of C# classes and applications that communicates directly with Geiger counters `GMC-280`, `GMC-300`, `GMC-320` connected to computer with a USB cable.
 
-### Usage Examples
-
-#### Minimal application: Get CPM ticks
+### Minimal application: Get CPM ticks
 
 ```
 namespace Vurdalakov
@@ -30,6 +28,75 @@ namespace Vurdalakov
         }
     }
 }
+```
+
+### Usage
+
+#### Initialization
+
+Use first connected device found:
+
+```
+var gmc300 = new Gmc300();
+```
+
+Use connected device by specifying port name are baud rate:
+
+```
+var gmc300 = new Gmc300("COM6", 57600);
+```
+
+#### Get port name
+
+```
+var portName = gmc300.PortName;
+Console.WriteLine($"Port name: '{bortName}'");
+```
+
+#### Get baud rate
+
+```
+var baudRate = gmc300.BaudRate;
+Console.WriteLine($"Baud rate: '{baudRate}'");
+```
+
+#### Get device model
+
+```
+var model = gmc300.Model;
+Console.WriteLine($"Model: '{model}'");
+```
+
+#### Get firmware version
+
+```
+var firmwareVersion = gmc300.FirmwareVersion;
+Console.WriteLine($"Firmware version: '{firmwareVersion}'");
+```
+
+#### Get [counts per minute (CPM)](https://en.wikipedia.org/wiki/Counts_per_minute)
+
+Returns the detection rate of ionization events per minute.
+
+Remember that this value is inaccurate during first minute of device operation.
+
+```
+var cpm = gmc300.GetCpm();
+Console.WriteLine($"CPM: {cpm}");
+```
+
+To convert CPM to uSv/h, delete CPM by 151.5:
+
+```
+var uSvh = (float)gmc300.GetCpm() / 151.5;
+Console.WriteLine($"uSv/h: {uSvh:N2}");
+```
+
+#### Get serial number (GETSERIAL)
+
+```
+var serialNumber = gmc300.GetSerialNumber();
+Console.WriteLine($"Serial number: '{serialNumber}'");
 ```
 
 #### Get battery voltage (GETVOLT)
@@ -60,13 +127,6 @@ Use `Gmc300Keys` enum or values from `0` to `3` (represent hardware keys `S1` to
 gmc300.SendKeys(3, 2, 2, 2, 2, 2, 2, 3, 2, 2, 3); // enter menu and show device serial number
 System.Threading.Thread.Sleep(5000);              // wait 5 seconds
 gmc300.SendKeys(Gmc300Keys.S1, Gmc300Keys.S1);    // exit menu to main screen
-```
-
-#### Get serial number (GETSERIAL)
-
-```
-var serialNumber = gmc300.GetSerialNumber();
-Console.WriteLine($"Serial number: '{serialNumber}'");
 ```
 
 #### Power off device (POWEROFF)

@@ -39,6 +39,29 @@ var volts = (float)gmc300.GetVoltage() / 10;
 Console.WriteLine($"Battery voltage: {volts:N1} V");
 ```
 
+#### Send key to device (KEY)
+
+Emulates key press of device buttons `S1` to `S4`.
+
+Use `Gmc300Keys` enum or values from `0` to `3` (represent hardware keys `S1` to `S4`).
+
+```
+gmc300.SendKey(Gmc300Keys.S4); // S4 key, enter menu
+gmc300.SendKey(0);             // S1 key, exit menu
+```
+
+#### Send multiple keys to device (KEY)
+
+Emulates key press of device buttons `S1` to `S4`.
+
+Use `Gmc300Keys` enum or values from `0` to `3` (represent hardware keys `S1` to `S4`).
+
+```
+gmc300.SendKeys(3, 2, 2, 2, 2, 2, 2, 3, 2, 2, 3); // enter menu and show device serial number
+System.Threading.Thread.Sleep(5000);              // wait 5 seconds
+gmc300.SendKeys(Gmc300Keys.S1, Gmc300Keys.S1);    // exit menu to main screen
+```
+
 #### Get serial number (GETSERIAL)
 
 ```

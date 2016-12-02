@@ -3,6 +3,9 @@
     using System;
     using System.IO.Ports;
     using System.Text;
+    using System.Threading;
+
+    public enum Gmc300Keys { S1 = 0, S2 = 1, S3 = 2, S4 = 3 }
 
     public class Gmc300
     {
@@ -83,6 +86,37 @@
             return ReadByte();
         }
 
+        public void SendKey(Int32 key)
+        {
+            WriteLine("KEY", key);
+            Thread.Sleep(500);
+        }
+
+        public void SendKey(Gmc300Keys key)
+        {
+            SendKey((Int32)key);
+        }
+
+        public void SendKeys(Int32 key, params Int32[] keys)
+        {
+            SendKey(key);
+
+            for (var i = 0; i < keys.Length; i++)
+            {
+                SendKey(keys[i]);
+            }
+        }
+
+        public void SendKeys(Gmc300Keys key, params Gmc300Keys[] keys)
+        {
+            SendKey(key);
+
+            for (var i = 0; i < keys.Length; i++)
+            {
+                SendKey(keys[i]);
+            }
+        }
+
         public String GetSerialNumber()
         {
             WriteLine("GETSERIAL");
@@ -108,7 +142,7 @@
         public void SetDateTime(DateTime dateTime)
         {
             WriteLine("SETDATETIME",
-                 (Byte)(dateTime.Year % 100), (Byte)dateTime.Month, (Byte)dateTime.Day, (Byte)dateTime.Hour, (Byte)dateTime.Minute, (Byte)dateTime.Second, 0xAA);
+                 dateTime.Year % 100, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, 0xAA);
 
             ReadAaByte();
         }
@@ -123,13 +157,15 @@
             return deviceDateTime;
         }
 
-        private void WriteLine(String command, params Byte[] parameters)
+        private void WriteLine(String command, params Int32[] parameters)
         {
             _serialPort.Write("<" + command);
 
             if (parameters.Length > 0)
             {
-                _serialPort.Write(parameters, 0, parameters.Length);
+                var bytes = Array.ConvertAll(parameters, b => (Byte)b);
+
+                _serialPort.Write(bytes, 0, bytes.Length);
             }
 
             _serialPort.WriteLine(">>");

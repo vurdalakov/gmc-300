@@ -90,6 +90,21 @@
             return ReadHexString(7);
         }
 
+        public void PowerOff()
+        {
+            WriteLine("POWEROFF");
+        }
+
+        public void PowerOn()
+        {
+            WriteLine("POWERON");
+        }
+
+        public void Reboot()
+        {
+            WriteLine("REBOOT");
+        }
+
         public void SetDateTime(DateTime dateTime)
         {
             WriteLine("SETDATETIME",

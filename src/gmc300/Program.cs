@@ -10,6 +10,11 @@
             var gmc300 = new Gmc300();
             Console.WriteLine($"Geiger counter found at port '{gmc300.Port}' (baud rate {gmc300.BaudRate:N0})");
 
+            //gmc300.PowerOff();
+            //gmc300.PowerOn();
+            //gmc300.Reboot();
+            //return;
+
             Console.WriteLine($"Model: '{gmc300.Model}'");
             Console.WriteLine($"Firmware version: '{gmc300.FirmwareVersion}'");
             Console.WriteLine($"Serial number: '{gmc300.GetSerialNumber()}'");

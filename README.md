@@ -46,6 +46,24 @@ var serialNumber = gmc300.GetSerialNumber();
 Console.WriteLine($"Serial number: '{serialNumber}'");
 ```
 
+#### Power off device (POWEROFF)
+
+```
+gmc300.PowerOff();
+```
+
+#### Power on device (POWERON)
+
+```
+gmc300.PowerOn();
+```
+
+#### Reboot device (REBOOT)
+
+```
+gmc300.Reboot();
+```
+
 #### Set device date and time (SETDATETIME)
 
 ```

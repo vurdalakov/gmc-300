@@ -85,7 +85,7 @@ var cpm = gmc300.GetCpm();
 Console.WriteLine($"CPM: {cpm}");
 ```
 
-To convert CPM to uSv/h, delete CPM by 151.5:
+To convert CPM to uSv/h, delete CPM by `151.5`:
 
 ```
 var uSvh = (float)gmc300.GetCpm() / 151.5;
@@ -94,10 +94,17 @@ Console.WriteLine($"uSv/h: {uSvh:N2}");
 
 #### Get raw history data (SPIR)
 
-Note that this operation can take 30-40 seconds.
+Note that this operation can take up to one minute.
 
 ```
 var data = gmc300.GetRawHistoryData();
+System.IO.File.WriteAllBytes(@"c:\temp\gmc300.dat", data);
+```
+
+If you get exceptions, decrease block size (default is `1024` bytes) or increase read timeout (default is `500` ms):
+
+```
+var data = gmc300.GetRawHistoryData(512, 1000);
 System.IO.File.WriteAllBytes(@"c:\temp\gmc300.dat", data);
 ```
 

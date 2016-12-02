@@ -79,18 +79,17 @@
             return (ReadByte() << 8) | ReadByte();
         }
 
-        public Byte[] GetRawHistoryData()
+        public Byte[] GetRawHistoryData(Int32 blockSize = 1024, Int32 readTimeout = 500)
         {
             var data = new Byte[65536];
 
-            var blockSize = 1024;
             var numberOfBlocks = data.Length / blockSize;
 
             var offset = 0;
             for (var blockNumber = 0; blockNumber < numberOfBlocks; blockNumber++)
             {
                 WriteLine("SPIR", (offset >> 16) & 0xFF, (offset >> 8) & 0xFF, offset & 0xFF, (blockSize >> 8) & 0xFF, blockSize & 0xFF);
-                Thread.Sleep(500);
+                Thread.Sleep(readTimeout);
 
                 var bytesRead = _serialPort.Read(data, offset, blockSize);
                 if (bytesRead != blockSize)

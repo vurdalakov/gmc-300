@@ -79,6 +79,38 @@
             return (ReadByte() << 8) | ReadByte();
         }
 
+        public Byte[] GetRawHistoryData()
+        {
+            var data = new Byte[65536];
+
+            var blockSize = 1024;
+            var numberOfBlocks = data.Length / blockSize;
+
+            var offset = 0;
+            for (var blockNumber = 0; blockNumber < numberOfBlocks; blockNumber++)
+            {
+                WriteLine("SPIR", (offset >> 16) & 0xFF, (offset >> 8) & 0xFF, offset & 0xFF, (blockSize >> 8) & 0xFF, blockSize & 0xFF);
+                Thread.Sleep(500);
+
+                var bytesRead = _serialPort.Read(data, offset, blockSize);
+                if (bytesRead != blockSize)
+                {
+                    throw new Exception($"Received {bytesRead:N0} bytes, expected {blockSize:N0} bytes");
+                }
+
+                // is it a bug in firmware? it returns 1 byte more than requested
+                var extraBytes = _serialPort.BytesToRead;
+                for (var i = 0; i < extraBytes; i++)
+                {
+                    ReadByte();
+                }
+
+                offset += blockSize;
+            }
+
+            return data;
+        }
+
         public Int32 GetVoltage()
         {
             WriteLine("GETVOLT");
@@ -159,6 +191,20 @@
 
         private void WriteLine(String command, params Int32[] parameters)
         {
+#if DEBUG
+            System.Diagnostics.Trace.Write("<" + command);
+            if (parameters.Length > 0)
+            {
+                System.Diagnostics.Trace.Write("[");
+                for (var i = 0; i < parameters.Length; i++)
+                {
+                    System.Diagnostics.Trace.Write($"{parameters[i]:X2},");
+                }
+                System.Diagnostics.Trace.Write("]");
+            }
+            System.Diagnostics.Trace.WriteLine(">>");
+#endif
+
             _serialPort.Write("<" + command);
 
             if (parameters.Length > 0)
@@ -206,7 +252,7 @@
 
             if (b != 0xAA)
             {
-                throw new Exception($"Received byte 0x{b:X2}, expected byte  0xAA");
+                throw new Exception($"Received byte 0x{b:X2}, expected byte 0xAA");
             }
         }
     }

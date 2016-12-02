@@ -60,21 +60,21 @@ var baudRate = gmc300.BaudRate;
 Console.WriteLine($"Baud rate: '{baudRate}'");
 ```
 
-#### Get device model
+#### Get device model (GETVER)
 
 ```
 var model = gmc300.Model;
 Console.WriteLine($"Model: '{model}'");
 ```
 
-#### Get firmware version
+#### Get firmware version (GETVER)
 
 ```
 var firmwareVersion = gmc300.FirmwareVersion;
 Console.WriteLine($"Firmware version: '{firmwareVersion}'");
 ```
 
-#### Get [counts per minute (CPM)](https://en.wikipedia.org/wiki/Counts_per_minute)
+#### Get [counts per minute (CPM)](https://en.wikipedia.org/wiki/Counts_per_minute) (GETCPM)
 
 Returns the detection rate of ionization events per minute.
 
@@ -90,6 +90,15 @@ To convert CPM to uSv/h, delete CPM by 151.5:
 ```
 var uSvh = (float)gmc300.GetCpm() / 151.5;
 Console.WriteLine($"uSv/h: {uSvh:N2}");
+```
+
+#### Get raw history data (SPIR)
+
+Note that this operation can take 30-40 seconds.
+
+```
+var data = gmc300.GetRawHistoryData();
+System.IO.File.WriteAllBytes(@"c:\temp\gmc300.dat", data);
 ```
 
 #### Get serial number (GETSERIAL)

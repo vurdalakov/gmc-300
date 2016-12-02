@@ -1,6 +1,7 @@
 ﻿namespace Vurdalakov
 {
     using System;
+    using System.IO;
     using System.Threading;
 
     class Program
@@ -29,6 +30,11 @@
             gmc300.SendKeys(3, 2, 2, 2, 2, 2, 2, 3, 2, 2, 3); // enter menu and show device serial number
             Thread.Sleep(5000);                               // wait 5 seconds
             gmc300.SendKeys(Gmc300Keys.S1, Gmc300Keys.S1);    // exit menu to main screen
+
+            var now = DateTime.Now;
+            var fileName = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), "gmc300.dat");
+            File.WriteAllBytes(fileName, gmc300.GetRawHistoryData());
+            Console.WriteLine($"Raw history data saved to '{fileName}' in {(DateTime.Now - now).TotalSeconds:N1} sec");
 
             while (true)
             {

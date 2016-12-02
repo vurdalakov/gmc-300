@@ -41,7 +41,7 @@
                 }
             }
 
-            throw new Exception("GMC-300 device is not found.");
+            throw new Exception("Geiger counter is not found.");
         }
 
         public Gmc300(String port, Int32 baudRate)
@@ -64,39 +64,60 @@
 
         public String GetVersion()
         {
-            _serialPort.WriteLine("<GETVER>>");
+            WriteLine("GETVER");
 
             return ReadString(14);
         }
 
         public Int32 GetCpm()
         {
-            _serialPort.WriteLine("<GETCPM>>");
+            WriteLine("GETCPM");
 
             return (ReadByte() << 8) | ReadByte();
         }
 
         public Int32 GetVoltage()
         {
-            _serialPort.WriteLine("<GETVOLT>>");
+            WriteLine("GETVOLT");
 
             return ReadByte();
         }
 
         public String GetSerialNumber()
         {
-            _serialPort.WriteLine("<GETSERIAL>>");
+            WriteLine("GETSERIAL");
 
             return ReadHexString(7);
         }
 
+        public void SetDateTime(DateTime dateTime)
+        {
+            WriteLine("SETDATETIME",
+                 (Byte)(dateTime.Year % 100), (Byte)dateTime.Month, (Byte)dateTime.Day, (Byte)dateTime.Hour, (Byte)dateTime.Minute, (Byte)dateTime.Second, 0xAA);
+
+            ReadAaByte();
+        }
+
         public DateTime GetDateTime()
         {
-            _serialPort.WriteLine("<GETDATETIME>>");
+            WriteLine("GETDATETIME");
 
             var deviceDateTime = new DateTime(2000 + ReadByte(), ReadByte(), ReadByte(), ReadByte(), ReadByte(), ReadByte(), DateTimeKind.Local);
-            ReadByte(); // 0xAA
+            ReadAaByte();
+
             return deviceDateTime;
+        }
+
+        private void WriteLine(String command, params Byte[] parameters)
+        {
+            _serialPort.Write("<" + command);
+
+            if (parameters.Length > 0)
+            {
+                _serialPort.Write(parameters, 0, parameters.Length);
+            }
+
+            _serialPort.WriteLine(">>");
         }
 
         private Byte ReadByte()
@@ -126,6 +147,16 @@
             }
 
             return stringBuilder.ToString();
+        }
+
+        private void ReadAaByte()
+        {
+            var b = ReadByte();
+
+            if (b != 0xAA)
+            {
+                throw new Exception($"Received byte 0x{b:X2}, expected byte  0xAA");
+            }
         }
     }
 }

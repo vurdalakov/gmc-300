@@ -46,6 +46,13 @@ var serialNumber = gmc300.GetSerialNumber();
 Console.WriteLine($"Serial number: '{serialNumber}'");
 ```
 
+#### Set device date and time (SETDATETIME)
+
+```
+var dateTime = DateTime.Now;
+gmc300.SetDateTime(dateTime);
+```
+
 #### Get device date and time (GETDATETIME)
 
 ```

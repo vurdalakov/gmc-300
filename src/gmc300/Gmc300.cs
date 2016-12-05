@@ -79,7 +79,7 @@
             return (ReadByte() << 8) | ReadByte();
         }
 
-        public Byte[] GetRawHistoryData(Int32 blockSize = 1024, Int32 readTimeout = 500)
+        public Byte[] GetHistoryData(Int32 blockSize = 1024, Int32 readTimeout = 500)
         {
             var data = new Byte[65536];
 

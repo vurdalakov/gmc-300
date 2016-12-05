@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("gmc300")]
-[assembly: AssemblyDescription("A simple program that communicates with GMC-300 Geiger counter")]
+[assembly: AssemblyTitle("gmc300parser")]
+[assembly: AssemblyDescription("A simple program that parses GMC-300 Geiger counter history data")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Vurdalakov")]
 [assembly: AssemblyProduct("gmc300")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a8ef0ca6-679f-44c9-8668-623c187f30ca")]
+[assembly: Guid("e8eb2da5-ca54-4d01-a2f1-f303bfe7abec")]
 
 // Version information for an assembly consists of the following four values:
 //

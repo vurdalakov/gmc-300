@@ -33,7 +33,7 @@
 
             var now = DateTime.Now;
             var fileName = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), "gmc300.dat");
-            File.WriteAllBytes(fileName, gmc300.GetRawHistoryData());
+            File.WriteAllBytes(fileName, gmc300.GetHistoryData());
             Console.WriteLine($"Raw history data saved to '{fileName}' in {(DateTime.Now - now).TotalSeconds:N1} sec");
 
             while (true)

@@ -2,6 +2,18 @@
 
 `gmc-300` repository contains a set of C# classes and applications that communicates directly with Geiger counters `GMC-280`, `GMC-300`, `GMC-320` connected to computer with a USB cable.
 
+**Contents**
+
+* Gmc300 class - communicates with `GMC-300` Geiger counter
+* Gmc300HistoryParser class - parses `GMC-300` Geiger counter history data
+* gmc300parser application - parses `GMC-300` Geiger counter history data
+* F.A.Q.
+* M4011 tube
+* License
+* Disclaimer
+
+## Gmc300 class
+
 ### Minimal application: Get CPM ticks
 
 ```
@@ -30,7 +42,7 @@ namespace Vurdalakov
 }
 ```
 
-### Usage
+### Reference
 
 #### Initialization
 
@@ -92,12 +104,12 @@ var uSvh = (float)gmc300.GetCpm() / 151.5;
 Console.WriteLine($"uSv/h: {uSvh:N2}");
 ```
 
-#### Get raw history data (SPIR)
+#### Get history data (SPIR)
 
 Note that this operation can take up to one minute.
 
 ```
-var data = gmc300.GetRawHistoryData();
+var data = gmc300.GetHistoryData();
 System.IO.File.WriteAllBytes(@"c:\temp\gmc300.dat", data);
 ```
 
@@ -176,6 +188,38 @@ gmc300.SetDateTime(dateTime);
 var deviceDateTime = gmc300.GetDateTime();
 Console.WriteLine("Device time: {0}", deviceDateTime.ToString("yyyy.MM.dd HH:mm:ss"));
 ```
+
+## Gmc300HistoryParser class
+
+### Minimal application: Parse history data
+
+```
+namespace Vurdalakov
+{
+    using System;
+    using System.Threading;
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var gmc300 = new Gmc300(); // will find the device automatically
+            Console.WriteLine($"Geiger counter '{gmc300.Model}' found at port '{gmc300.Port}' (baud rate {gmc300.BaudRate:N0})");
+
+            var historyData = gmc300.GetHistoryData();
+            
+            var parser = new Gmc300HistoryParser();
+            parser.OnCount += (dateTime, dataType, count) => Console.WriteLine("{0} = {1} {2}", dateTime.Format("yyyy.MM.dd HH:mm:ss"), count, 1 == dataType ? "CPS" : "CPM");
+
+            parser.Read(historyData);
+        }
+    }
+}
+```
+
+### Reference
+
+## Miscellaneous
 
 ### F.A.Q.
 

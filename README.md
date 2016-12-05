@@ -1,4 +1,4 @@
-﻿# gmc-300
+# gmc-300
 
 `gmc-300` repository contains a set of C# classes and applications that communicates directly with Geiger counters `GMC-280`, `GMC-300`, `GMC-320` connected to computer with a USB cable.
 
@@ -225,3 +225,22 @@ https://www.aliexpress.com/item/The-Tube-for-Geiger-Counter-Kit-The-tube-for-Nuc
 
 * [Official clients from GQ Electronics](http://www.gqelectronicsllc.com/comersus/store/download.asp)
 * [GMC 300 Python Client](https://github.com/stilldavid/gmc-300-python)
+
+### License
+
+Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT).
+
+### Disclaimer
+
+This project is not associated with nor sponsored by [GQ Electronics LLC](http://www.gqelectronicsllc.com/).
+
+All product names, logos, and brands are property of their respective owners and are cited herein for identification purposes only.
+
+```
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
